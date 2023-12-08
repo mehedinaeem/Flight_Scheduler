@@ -68,7 +68,7 @@ def insert_data(flight_data):
 url = "https://flight-info-api.p.rapidapi.com/status"
 querystring = {
     "DepartureAirport": "DAC",
-    "DepartureDateTime": "2023-12-07T16:00/2023-12-07T17:00",
+    "DepartureDateTime": "2023-12-08T16:00/2023-12-11T17:00",
     "CodeType": "IATA",
     "FlightType": "Scheduled",
     "version": "v2",

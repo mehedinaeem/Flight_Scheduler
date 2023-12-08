@@ -17,25 +17,26 @@ table_exists = mycursor.fetchone()
 
 if not table_exists:
     sqlquery = """
-        CREATE TABLE user_info(
+         CREATE TABLE user_info(
             flight_number varchar(10),
             name varchar(50),
-            phone int,
-            email varchar(50)
+            phone varchar(50),
+            email varchar(50),
+            FOREIGN KEY (flight_number) REFERENCES flight(flight_number)
         )
     """
     mycursor.execute(sqlquery)
     print("Table created successfully")
 
 # Get user input for data
-flight_number=input("Enter your flight number:")
+flight_number = input("Enter your flight number:")
 name = input("Enter name: ")
 phone = int(input("Enter phone number: "))
 email = input("Enter email: ")
 
 # Insert data into the table
-sql_insert = "INSERT INTO user_info (name, phone, email) VALUES (%s, %s, %s)"
-values = (name, phone, email)
+sql_insert = "INSERT INTO user_info (flight_number,name, phone, email) VALUES (%s,%s, %s, %s)"
+values = (flight_number,name, phone, email)
 
 mycursor.execute(sql_insert, values)
 mydbconnection.commit()
