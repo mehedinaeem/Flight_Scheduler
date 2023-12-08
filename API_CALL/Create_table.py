@@ -20,10 +20,16 @@ mycursor=mydbconnection.cursor()
 
 
 sqlquery= """
-    CREATE TABLE user_info(
-        name varchar(50),
-        phone int,
-        email varchar(50)
+    CREATE TABLE flight(
+        flight_number varchar(10) primary key,
+        departure_time datetime,
+        departure_date datetime,
+        arrival_place varchar(250),
+        arrival_date datetime,
+        arrival_time datetime,
+        aircraft_type varchar(250),
+        airline varchar(50),
+        estimated_time varchar(50)
     )
     """
 
