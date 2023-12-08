@@ -2,19 +2,41 @@ import requests
 import mysql.connector
 from datetime import datetime, timedelta
 
-
 # Function to insert data into the MySQL database
 def insert_data(flight_data):
     my_db = "flight_info"
     try:
-        connection = mysql.connector.connect(
+        mydbconnection = mysql.connector.connect(
             host="localhost",
             user="root",
             password="naee2580",
             database=my_db
         )
 
-        cursor = connection.cursor()
+        mycursor = mydbconnection.cursor()
+
+        # Check if the table exists, if not, create it
+        mycursor.execute("SHOW TABLES LIKE 'flight'")
+        table_exists = mycursor.fetchone()
+
+        if not table_exists:
+            sqlquery = """
+                CREATE TABLE flight(
+                    flight_number varchar(10) primary key,
+                    departure_time datetime,
+                    departure_date datetime,
+                    arrival_place varchar(250),
+                    arrival_date datetime,
+                    arrival_time datetime,
+                    aircraft_type varchar(250),
+                    airline varchar(50),
+                    estimated_time varchar(50)
+                )
+            """
+            mycursor.execute(sqlquery)
+            print("Table created successfully")
+
+
 
         for flight in flight_data:
             # Extract flight details
@@ -50,20 +72,21 @@ def insert_data(flight_data):
             # SQL query to insert data into the database
             sql = "INSERT INTO flight (flight_number, departure_time, departure_date, arrival_place, arrival_date, arrival_time, aircraft_type, airline, estimated_time) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
             values = (flight_number, formatted_departure_time, departure_date, arrival_place,
-                    arrival_date, formatted_arrival_time, aircraft_type, airline, estimated_time)
+                      arrival_date, formatted_arrival_time, aircraft_type, airline, estimated_time)
 
-            cursor.execute(sql, values)
+            mycursor.execute(sql, values)
 
-        connection.commit()
+        mydbconnection.commit()
 
     except Exception as e:
         print("Error inserting data into the database:", e)
 
     finally:
-        if connection.is_connected():
+        if mydbconnection.is_connected():
             print("Successfully inserted")
-            cursor.close()
-            connection.close()
+            mycursor.close()
+            mydbconnection.close()
+
 
 # Get user input for airport name
 airport_name = input("Enter airport name (e.g., DAC): ")
