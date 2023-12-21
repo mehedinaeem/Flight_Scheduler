@@ -1,7 +1,7 @@
 # connection
 import mysql.connector
 
-db_name = "Flight_info"
+db_name = "send_mail"
 
 mydbconnection = mysql.connector.connect(
     host="localhost",
@@ -16,19 +16,12 @@ mycursor = mydbconnection.cursor()
 #                       arrival_date, arrival_time, aircraft_type, airline, estimated_time)
 
 sqlquery = """
-    CREATE TABLE flight(
-        flight_number varchar(10),
-        departure_time datetime,
-        departure_date datetime,
-        arrival_place varchar(250),
-        arrival_date datetime,
-        arrival_time datetime,
-        aircraft_type varchar(250),
-        airline varchar(50),
-        estimated_time varchar(50),
-        PRIMARY KEY (flight_number, departure_time,arrival_place)
+    CREATE TABLE user_data(
+        Name varchar(10),
+        phone_number varchar(250) primary key,
+        mail varchar(50)
     )
-    """
+"""
 
 mycursor.execute(sqlquery)
 print("create table successfully")

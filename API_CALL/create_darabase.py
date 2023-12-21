@@ -1,6 +1,6 @@
 import mysql.connector
 
-db_name = "Flight_info"
+db_name = "send_mail"
 
 # Create a connection without specifying the database
 mydbconnection = mysql.connector.connect(
