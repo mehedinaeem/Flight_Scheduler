@@ -1,7 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, QTextEdit, QInputDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, QTextEdit, QInputDialog, QHBoxLayout, QFormLayout, QSpacerItem, QSizePolicy
 from flight import search_flight
 from user import book_flight
+from PyQt5.QtCore import Qt  # Import Qt module for alignment flags
 
 class FlightScheduler(QWidget):
     def __init__(self):
@@ -10,34 +11,50 @@ class FlightScheduler(QWidget):
 
     def init_ui(self):
         self.setWindowTitle("Flight Scheduler")
+        self.setFixedSize(800, 600)  # Set the fixed size of the window
 
-        layout = QVBoxLayout()
+        main_layout = QHBoxLayout()
+
+        left_layout = QFormLayout()
+        right_layout = QVBoxLayout()
 
         self.label_airport = QLabel("Enter airport name (e.g., DAC): ")
         self.input_airport = QLineEdit()
-        layout.addWidget(self.label_airport)
-        layout.addWidget(self.input_airport)
+        self.input_airport.setFixedSize(200, 30)
+
+        # Adjusting the horizontal spacing between the label and input box
+        left_layout.setFormAlignment(Qt.AlignTop)  # Align to the top
+        left_layout.setLabelAlignment(Qt.AlignRight)  # Align labels to the right
+
+        left_layout.addRow(self.label_airport, self.input_airport)
 
         self.label_date = QLabel("Enter date (YYYY-MM-DD): ")
         self.input_date = QLineEdit()
-        layout.addWidget(self.label_date)
-        layout.addWidget(self.input_date)
+        self.input_date.setFixedSize(200, 30)
+
+        left_layout.addRow(self.label_date, self.input_date)
 
         self.button_search = QPushButton("Search Flight")
+        self.button_search.setFixedSize(200, 30)
         self.button_search.clicked.connect(self.search_flight_clicked)
-        layout.addWidget(self.button_search)
+        
+        left_layout.addWidget(self.button_search)
 
         self.label_flight_info = QLabel("Flight Information:")
-        layout.addWidget(self.label_flight_info)
+        right_layout.addWidget(self.label_flight_info)
 
         self.text_flight_info = QTextEdit()
-        layout.addWidget(self.text_flight_info)
+        right_layout.addWidget(self.text_flight_info)
 
         self.button_book = QPushButton("Book a Flight")
+        self.button_book.setFixedSize(200, 30)
         self.button_book.clicked.connect(self.book_flight_clicked)
-        layout.addWidget(self.button_book)
+        right_layout.addWidget(self.button_book)
 
-        self.setLayout(layout)
+        main_layout.addLayout(left_layout)
+        main_layout.addLayout(right_layout)
+
+        self.setLayout(main_layout)
 
     def search_flight_clicked(self):
         airport_name = self.input_airport.text()
