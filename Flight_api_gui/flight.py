@@ -38,17 +38,31 @@ def search_flight(airport_name, date_str):
 
             flight_data = response.json().get('data', [])
             for flight in flight_data:
-                # Extract flight details as needed
+               # Print flight details as before
                 flight_number = flight.get('flightNumber')
                 departure_time = flight.get(
                     'departure', {}).get('time', {}).get('local')
-                # Add more flight details as required
+                departure_date = flight.get(
+                    'departure', {}).get('date', {}).get('local')
+                arrival_place = flight.get('arrival', {}).get(
+                    'airport', {}).get('iata')
+                arrival_date = flight.get('arrival', {}).get(
+                    'date', {}).get('local')
+                arrival_time = flight.get('arrival', {}).get(
+                    'time', {}).get('local')
+                aircraft_type = flight.get('aircraftType', {}).get('iata')
+                airline = flight.get('carrier', {}).get('iata')
+                estimated_time = flight.get('elapsedTime')
 
-                # Concatenate flight information
                 flight_info += f"Flight Number: {flight_number}\n"
                 flight_info += f"Departure Time: {departure_time}\n"
-                # Append more flight details
-
+                flight_info += f"Departure Date: {departure_date}\n"
+                flight_info += f"Arrival Place: {arrival_place}\n"
+                flight_info += f"Arrival Date: {arrival_date}\n"
+                flight_info += f"Arrival Time: {arrival_time}\n"
+                flight_info += f"Aircraft Type: {aircraft_type}\n"
+                flight_info += f"Airline: {airline}\n"
+                flight_info += f"Estimated Time: {estimated_time} minutes\n"
                 flight_info += "-------------------------------\n"
 
             return flight_info
