@@ -1,7 +1,11 @@
 # user.py
 import mysql.connector
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 db_name = "flight_info"
+
 
 def book_flight(flight_number, name, phone, email):
     try:
@@ -37,6 +41,9 @@ def book_flight(flight_number, name, phone, email):
 
         print("Data inserted successfully")
 
+        # Send confirmation email
+        send_confirmation_email(email, flight_number)
+
     except mysql.connector.Error as error:
         print(f"Error: {error}")
 
@@ -45,3 +52,35 @@ def book_flight(flight_number, name, phone, email):
             mycursor.close()
         if 'mydbconnection' in locals() and mydbconnection:
             mydbconnection.close()
+
+
+def send_confirmation_email(email, flight_number):
+    # Set up SMTP server configuration
+    smtp_server = "smtp-mail.outlook.com"  # Update with your SMTP server
+    smtp_port = 587  # Update with your SMTP port
+    sender_email = "mahadinaeem00@outlook.com"  # Update with your email
+    sender_password = "naeem2580NAEEM"  # Update with your email password
+
+    # Create message object
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = email
+    msg['Subject'] = "Flight Booking Confirmation"
+
+    # Email body
+    body = f"Dear Passenger, your booking for flight number {
+        flight_number} has been confirmed. Thank you for choosing our service!"
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        # Create SMTP session and send the email
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.send_message(msg)
+        print("Confirmation email sent successfully!")
+        server.quit()
+    except Exception as e:
+        print(f"Failed to send confirmation email: {e}")
+
+# Rest of the code remains unchanged

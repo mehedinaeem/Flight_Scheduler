@@ -15,7 +15,7 @@ class FlightScheduler(QWidget):
         self.setWindowTitle("Flight Scheduler")
         self.setGeometry(600, 300, 800, 500)
         self.setWindowIcon(
-            QIcon('D:/Flight_Scheduler/Flight_api_gui/plane.png'))
+            QIcon('D:/Flight_Scheduler/Flight_api_gui/asset/plane.png'))
 
         main_layout = QHBoxLayout()
 
@@ -50,7 +50,6 @@ class FlightScheduler(QWidget):
         self.button_search.clicked.connect(self.search_flight_clicked)
         left_layout.addWidget(self.button_search)
 
-    
         self.label_flight_info = QLabel("<b>Flight Information:</b>")
         self.label_flight_info.setStyleSheet("font-size:30 px")
         right_layout.addWidget(self.label_flight_info)
@@ -59,9 +58,10 @@ class FlightScheduler(QWidget):
         self.text_flight_info.setReadOnly(True)
         right_layout.addWidget(self.text_flight_info)
 
-        self.button_book = QPushButton("Track flight")
+        self.button_book = QPushButton("Get flight Update")
         self.button_book.setFixedSize(200, 30)
-        self.button_book.setStyleSheet("background-color:#A447D7; color:black;font-size:20px")
+        self.button_book.setStyleSheet(
+            "background-color:#A447D7; color:black;font-size:20px")
         self.button_book.clicked.connect(self.book_flight_clicked)
         right_layout.addWidget(self.button_book)
 
