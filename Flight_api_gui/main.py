@@ -1,8 +1,10 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, QTextEdit, QInputDialog, QHBoxLayout, QFormLayout, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, QTextEdit, QInputDialog, QHBoxLayout, QFormLayout
+from PyQt5.QtGui import QIcon, QTextCharFormat
+from PyQt5.QtCore import Qt
 from flight import search_flight
 from user import book_flight
-from PyQt5.QtCore import Qt  # Import Qt module for alignment flags
+
 
 class FlightScheduler(QWidget):
     def __init__(self):
@@ -11,43 +13,55 @@ class FlightScheduler(QWidget):
 
     def init_ui(self):
         self.setWindowTitle("Flight Scheduler")
-        self.setFixedSize(800, 600)  # Set the fixed size of the window
+        self.setGeometry(600, 300, 800, 500)
+        self.setWindowIcon(
+            QIcon('D:/Flight_Scheduler/Flight_api_gui/plane.png'))
 
         main_layout = QHBoxLayout()
+
+        self.setAutoFillBackground(True)
+        palette = self.palette()
+        palette.setColor(self.backgroundRole(), Qt.gray)
+        self.setPalette(palette)
 
         left_layout = QFormLayout()
         right_layout = QVBoxLayout()
 
         self.label_airport = QLabel("Enter airport name (e.g., DAC): ")
         self.input_airport = QLineEdit()
+        self.input_airport.setStyleSheet(
+            "background-color:#9EAE9D; color:black;font-size:25px")
         self.input_airport.setFixedSize(200, 30)
-
-        # Adjusting the horizontal spacing between the label and input box
-        left_layout.setFormAlignment(Qt.AlignTop)  # Align to the top
-        left_layout.setLabelAlignment(Qt.AlignRight)  # Align labels to the right
-
+        left_layout.setFormAlignment(Qt.AlignTop)
+        left_layout.setLabelAlignment(Qt.AlignRight)
         left_layout.addRow(self.label_airport, self.input_airport)
 
         self.label_date = QLabel("Enter date (YYYY-MM-DD): ")
         self.input_date = QLineEdit()
         self.input_date.setFixedSize(200, 30)
-
+        self.input_date.setStyleSheet(
+            "background-color:#9EAE9D; color:black;font-size:25px")
         left_layout.addRow(self.label_date, self.input_date)
 
         self.button_search = QPushButton("Search Flight")
-        self.button_search.setFixedSize(200, 30)
+        self.button_search.setStyleSheet(
+            "background-color:#A447D7; color:black;font-size:20px")
+        self.button_search.setFixedSize(150, 40)
         self.button_search.clicked.connect(self.search_flight_clicked)
-        
         left_layout.addWidget(self.button_search)
 
-        self.label_flight_info = QLabel("Flight Information:")
+    
+        self.label_flight_info = QLabel("<b>Flight Information:</b>")
+        self.label_flight_info.setStyleSheet("font-size:30 px")
         right_layout.addWidget(self.label_flight_info)
 
         self.text_flight_info = QTextEdit()
+        self.text_flight_info.setReadOnly(True)
         right_layout.addWidget(self.text_flight_info)
 
-        self.button_book = QPushButton("Book a Flight")
+        self.button_book = QPushButton("Track flight")
         self.button_book.setFixedSize(200, 30)
+        self.button_book.setStyleSheet("background-color:#A447D7; color:black;font-size:20px")
         self.button_book.clicked.connect(self.book_flight_clicked)
         right_layout.addWidget(self.button_book)
 
@@ -61,25 +75,46 @@ class FlightScheduler(QWidget):
         date_str = self.input_date.text()
 
         flight_info = search_flight(airport_name, date_str)
-        self.text_flight_info.setPlainText(flight_info)
+        self.display_flight_info(flight_info)
+
+    def display_flight_info(self, flight_info):
+        self.text_flight_info.clear()
+
+        flight_list = flight_info.split("-------------------------------\n")
+        for i, flight in enumerate(flight_list):
+            format = QTextCharFormat()
+            if i % 2 == 0:
+                format.setBackground(Qt.red)
+            else:
+                format.setBackground(Qt.green)
+
+            formatted_text = f"<span style='background-color:{
+                format.background().color().name()};'>{flight.strip()}</span><br>"
+            self.text_flight_info.insertHtml(formatted_text)
 
     def book_flight_clicked(self):
-        flight_number, ok = QInputDialog.getText(self, "Flight Number", "Enter your flight number:")
+        flight_number, ok = QInputDialog.getText(
+            self, "Flight Number", "Enter your flight number:")
         if ok:
             name, ok = QInputDialog.getText(self, "Name", "Enter your name:")
             if ok:
-                phone, ok = QInputDialog.getText(self, "Phone Number", "Enter your phone number:")
+                phone, ok = QInputDialog.getText(
+                    self, "Phone Number", "Enter your phone number:")
                 if ok:
-                    email, ok = QInputDialog.getText(self, "Email", "Enter your email:")
+                    email, ok = QInputDialog.getText(
+                        self, "Email", "Enter your email:")
                     if ok:
                         book_flight(flight_number, name, phone, email)
-                        self.text_flight_info.setPlainText("Flight booked successfully!")
+                        self.text_flight_info.setPlainText(
+                            "Flight booked successfully!")
+
 
 def main():
     app = QApplication(sys.argv)
     scheduler = FlightScheduler()
     scheduler.show()
     sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
     main()
