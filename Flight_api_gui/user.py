@@ -69,7 +69,7 @@ def send_confirmation_email(email, flight_number):
 
     # Email body
     body = f"Dear Passenger, your booking for flight number {
-        flight_number} has been confirmed. Thank you for choosing our service!"
+        flight_number} has been confirmed. Thank you for choosing our service!\n best regards\nteam members"
     msg.attach(MIMEText(body, 'plain'))
 
     try:

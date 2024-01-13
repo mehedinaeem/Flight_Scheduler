@@ -69,12 +69,12 @@ if status_details:
             print("Flight departure is delayed!")
             print("Scheduled Departure:", scheduled_departure)
             print("Actual Departure:", actual_departure)
-        
+
         if scheduled_arrival != actual_arrival:
             print("Flight arrival is delayed!")
             print("Scheduled Arrival:", scheduled_arrival)
             print("Actual Arrival:", actual_arrival)
-        
+
         if scheduled_departure == actual_departure and scheduled_arrival == actual_arrival:
             print("The flight is on time.")
 else:
