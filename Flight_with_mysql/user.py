@@ -5,7 +5,7 @@ db_name = "Flight_info"
 mydbconnection = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="naee2580",
+    passwd="",
     database=db_name
 )
 

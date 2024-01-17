@@ -4,7 +4,7 @@ def send_email(to_email, subject, message):
     HOST = "smtp-mail.outlook.com"
     PORT = 587
     FROM_EMAIL = "mahadinaeem00@outlook.com"
-    PASSWORD = "naeem2580NAEEM"
+    PASSWORD = ""
 
     try:
         smtp = smtplib.SMTP(HOST, PORT)

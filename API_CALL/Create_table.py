@@ -6,7 +6,7 @@ db_name = "send_mail"
 mydbconnection = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="naee2580",
+    passwd="",
     database=db_name
 )
 

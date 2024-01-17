@@ -12,7 +12,7 @@ def book_flight(flight_number, name, phone, email):
         mydbconnection = mysql.connector.connect(
             host="localhost",
             user="root",
-            passwd="naee2580",
+            passwd="",
             database=db_name
         )
 
@@ -59,7 +59,7 @@ def send_confirmation_email(email, flight_number):
     smtp_server = "smtp-mail.outlook.com"  # Update with your SMTP server
     smtp_port = 587  # Update with your SMTP port
     sender_email = "mahadinaeem00@outlook.com"  # Update with your email
-    sender_password = "naeem2580NAEEM"  # Update with your email password
+    sender_password = ""  # Update with your email password
 
     # Create message object
     msg = MIMEMultipart()
@@ -69,7 +69,7 @@ def send_confirmation_email(email, flight_number):
 
     # Email body
     body = f"Dear Passenger, your booking for flight number {
-        flight_number} has been confirmed. Thank you for choosing our service!\n best regards\nteam members"
+        flight_number} has been confirmed. Thank you for choosing our service!\nBest regards\nFrom us"
     msg.attach(MIMEText(body, 'plain'))
 
     try:

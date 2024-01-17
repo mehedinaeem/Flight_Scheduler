@@ -9,7 +9,7 @@ def insert_data(flight_data):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="naee2580",
+            password="",
             database=my_db
         )
 

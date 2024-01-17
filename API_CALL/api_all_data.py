@@ -60,22 +60,16 @@ if status_details:
         scheduled_departure = flight_data['departure']['time']['utc']
         actual_departure = status['departure']['actualTime']['offGround']['utc']
 
-        # Get scheduled and actual arrival times
-        scheduled_arrival = flight_data['arrival']['time']['utc']
-        actual_arrival = status['arrival']['actualTime']['onGround']['utc']
-
+       
         # Compare scheduled and actual times for departure and arrival
         if scheduled_departure != actual_departure:
             print("Flight departure is delayed!")
             print("Scheduled Departure:", scheduled_departure)
             print("Actual Departure:", actual_departure)
 
-        if scheduled_arrival != actual_arrival:
-            print("Flight arrival is delayed!")
-            print("Scheduled Arrival:", scheduled_arrival)
-            print("Actual Arrival:", actual_arrival)
+       
 
-        if scheduled_departure == actual_departure and scheduled_arrival == actual_arrival:
+        if scheduled_departure == actual_departure:
             print("The flight is on time.")
 else:
     print("No status details available for this flight.")

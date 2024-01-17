@@ -9,7 +9,7 @@ TO_EMAIL = "mehedinaeem00@gmail.com"
 
 try:
     # PASSWORD = getpass.getpass(prompt="Enter password: ")
-    PASSWORD="naeem2580NAEEM"
+    PASSWORD=""
 
     MESSAGE = """Subject: Test
     Testing use smtplib
